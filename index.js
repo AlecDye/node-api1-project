@@ -26,6 +26,8 @@ server.use(express.json());
 //   res.json({ api: "active" });
 // });
 
+// .find loops through an array and returns a single item (.filter returns an entire array)
+
 // POST users
 server.post("/api/users", (req, res) => {
   const userInfo = req.body;
@@ -87,7 +89,12 @@ server.get("/api/users/:id", (req, res) => {
 // DELETE users/:id
 server.delete("/api/users/:id", (req, res) => {
   const id = req.params.id;
-  const user = users.filter((contact) => user.id == id);
+  const user = users.find((contact) => user.id == id);
+  if (user) {
+    res
+      .status(404)
+      .json({ message: "The user with the specified ID does not exist." });
+  }
 });
 
 // PUT users/:id
